@@ -40,6 +40,24 @@ This repository contains a complete Laravel application in the `store_backend/` 
 - Use the provided `SETUP.bat` in `store_backend/` on Windows to automate environment setup.
 - `.gitignore` excludes vendor, node_modules, and environment files.
 
+## Demo media
+
+Add website screenshot images to the `demo/` folder and reference them here in the README.
+
+Example image embed:
+
+```md
+![Homepage screenshot](demo/homepage.png)
+```
+
+If you have a demo video, add a public video URL and link it here:
+
+```md
+[Watch demo video](https://youtu.be/your-demo-video)
+```
+
+The `demo/` folder is included as a placeholder so you can store screenshots and media for the repo.
+
 ## Repository
 
 Repository: https://github.com/muhammadabdullah071/Web_Project
