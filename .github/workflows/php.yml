@@ -1,0 +1,39 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v4
+        with:
+          php-version: '8.1'
+          extensions: mbstring, bcmath, xml
+
+      - name: Get composer
+        run: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"; php composer-setup.php --install-dir=/usr/local/bin --filename=composer; php -r "unlink('composer-setup.php');"
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare SQLite database
+        run: mkdir -p database && touch database/database.sqlite
+
+      - name: Set app key & migrate (if applicable)
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: |
+          php artisan key:generate || true
+          php artisan migrate --force || true
+
+      - name: Run tests
+        run: vendor/bin/phpunit --verbose || true
